@@ -91,19 +91,21 @@ def generateFileFromInkscape(inputsvgfile, outputsvgfile, outputdirpng, transfor
     for i in listId.split(", "):
         retcode = subprocess.call(["inkscape", outputsvgfile, "--export-id", i, "--export-use-hints"])
 
-def generateColorizedImage(destColor):
+def generateColorizedImage(destColor, outputdir):
     import shutil, os
     
     #Constants
     inputsvgfile = './input-svg/ol_labeled.svg'
     outputsvgdir = 'output-svg'
     outputsvgfilename = 'ol_labeled_recolor.svg'
-    outputdirpng = 'output-png'
+    outputdirpng = outputdir
 
-    #Only options needed
-    #destColor = '#ff0000'
-
-
+    #Check and create dir if necessary
+    try:
+        os.makedirs(outputdirpng)
+    except OSError:
+        pass
+    
     # Id list use both for command line id process and path change (basename id and namefile are the same)
     listIdInkscape = "east-mini, layer-switcher-maximize, layer-switcher-minimize, north-mini, slider, south-mini, west-mini, zoombar, zoom-minus-mini, zoom-plus-mini, zoom-world-mini"
 
@@ -113,8 +115,6 @@ def generateColorizedImage(destColor):
 
     #Can't use quickly the same map because of transparency problem so use a second svg
     generateFileFromInkscape('./input-svg/overview.svg', os.path.join(outputsvgdir, "overview_recolor.svg"), outputdirpng, destColor, "overview")
-
-
 
 
 from optparse import OptionParser
@@ -143,22 +143,22 @@ Further informations about color can be found at http://www.w3.org/TR/css3-color
     parser = OptionParser(usage="usage: %prog [options] color" + usageText,
                           version="%prog 1.0")
 
+    parser.add_option("-o", "--output-png",
+                      action="store", # optional because action defaults to "store"
+                      dest="outputfile",
+                      default="output-png",
+                      help="png output dir",)
+
+
     (options, args) = parser.parse_args()
 
     if len(args) != 1:
         parser.error("Wrong number of arguments")
 
-    
-        
-        
-    #print options
     inputColor = args[0]
     inputColor = htmlColorTextToHexCode(inputColor, htmlHexValue(inputColor, "Do you really use html hex notation like #FFF000"))
-    
-    #print "#" + inputColor
-    generateColorizedImage(inputColor)
+    generateColorizedImage(inputColor, options.outputfile)
 
-    #print inputColor
 
 if __name__ == '__main__':
     main()
