@@ -45,7 +45,7 @@ def htmlColorTextToHexCode(colorValue, error = "Invalid color code"):
 def multiple_replace(dict, text):
     """ Replace in 'text' all occurences of any key in the given
     dictionary by its corresponding value.  Returns the new string.
-    From http://code.activestate.com/recipes/81330-single-pass-multiple-replace/""" 
+    From http://code.activestate.com/recipes/81330-single-pass-multiple-replace/"""
     import re
     # Create a regular expression  from the dictionary keys
     regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
@@ -93,7 +93,7 @@ def generateFileFromInkscape(inputsvgfile, outputsvgfile, outputdirpng, transfor
 
 def generateColorizedImage(destColor, outputdir):
     import shutil, os
-    
+
     #Constants
     inputsvgfile = './input-svg/ol_labeled.svg'
     outputsvgdir = 'output-svg'
@@ -105,7 +105,7 @@ def generateColorizedImage(destColor, outputdir):
         os.makedirs(outputdirpng)
     except OSError:
         pass
-    
+
     # Id list use both for command line id process and path change (basename id and namefile are the same)
     listIdInkscape = "east-mini, layer-switcher-maximize, layer-switcher-minimize, north-mini, slider, south-mini, west-mini, zoombar, zoom-minus-mini, zoom-plus-mini, zoom-world-mini"
 
@@ -161,18 +161,16 @@ Further informations about color can be found at http://www.w3.org/TR/css3-color
     if options.generateall == True:
         colorListAgain =  ["aliceblue","antiquewhite","aqua","aquamarine","azure","beige","bisque","black","blanchedalmond","blue","blueviolet","brown","burlywood","cadetblue","chartreuse","chocolate","coral","cornflowerblue","cornsilk","crimson","cyan","darkblue","darkcyan","darkgoldenrod","darkgray","darkgreen","darkgrey","darkkhaki","darkmagenta","darkolivegreen","darkorange","darkorchid","darkred","darksalmon","darkseagreen","darkslateblue","darkslategray","darkslategrey","darkturquoise","darkviolet","deeppink","deepskyblue","dimgray","dimgrey","dodgerblue","firebrick","floralwhite","forestgreen","fuchsia","gainsboro","ghostwhite","gold","goldenrod","gray","green","greenyellow","grey","honeydew","hotpink","indianred","indigo","ivory","khaki","lavender","lavenderblush","lawngreen","lemonchiffon","lightblue","lightcoral","lightcyan","lightgoldenrodyellow","lightgray","lightgreen","lightgrey","lightpink","lightsalmon","lightseagreen","lightskyblue","lightslategray","lightslategrey","lightsteelblue","lightyellow","lime","limegreen","linen","magenta","maroon","mediumaquamarine","mediumblue","mediumorchid","mediumpurple","mediumseagreen","mediumslateblue","mediumspringgreen","mediumturquoise","mediumvioletred","midnightblue","mintcream","mistyrose","moccasin","navajowhite","navy","oldlace","olive","olivedrab","orange","orangered","orchid","palegoldenrod","palegreen","paleturquoise","palevioletred","papayawhip","peachpuff","peru","pink","plum","powderblue","purple","red","rosybrown","royalblue","saddlebrown","salmon","sandybrown","seagreen","seashell","sienna","silver","skyblue","slateblue","slategray","slategrey","snow","springgreen","steelblue","tan","teal","thistle","tomato","turquoise","violet","wheat","whitesmoke","yellow","yellowgreen"]
         for i in colorListAgain:
-            generateColorizedImage(i, i)
+            generateColorizedImage(i, options.outputfile + "/" + i)
     # Retrieve other options for dir and args e.g output color
-    else: 
+    else:
         if len(args) != 1:
             parser.error("Wrong number of arguments")
         inputColor = args[0]
         inputColor = htmlColorTextToHexCode(inputColor, htmlHexValue(inputColor, "Do you really use html hex notation like #FFF000"))
         generateColorizedImage(inputColor, options.outputfile)
-    
+
 
 if __name__ == '__main__':
     main()
-
-
 
