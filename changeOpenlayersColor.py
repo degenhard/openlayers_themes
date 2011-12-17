@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import platform
+
 """
 This script generates icons to be used within OpenLayers-applications. Requires python and inkscape.
 
@@ -88,8 +90,12 @@ def generateFileFromInkscape(inputsvgfile, outputsvgfile, outputdirpng, transfor
     f.close()
 
     #Use python to call system command for inscape
+    inkscape_bin = 'inkscape'
+    if 'Darwin' in platform.uname():
+        inkscape_bin = '/Applications/Inkscape.app/Contents/Resources/bin/inkscape'
+
     for i in listId.split(", "):
-        retcode = subprocess.call(["inkscape", outputsvgfile, "--export-id", i, "--export-use-hints"])
+        retcode = subprocess.call([inkscape_bin, outputsvgfile, "--export-id", i, "--export-use-hints"])
 
 def generateColorizedImage(destColor, outputdir):
     import shutil, os
